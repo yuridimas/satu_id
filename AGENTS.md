@@ -31,7 +31,7 @@ filenames. Read the linked skills (`boost.json` activates them) before working i
 - Tests conditionally skip Fortify features via `skipUnlessFortifyHas()` (see `tests/TestCase.php`).
 
 ## Database
-- **SQLite**, file `database/database.sqlite`. Tests use `:memory:` (phpunit.xml).
+- **PostgreSQL** — dev DB `satu_id_4`, test DB `satu_id_4_test` (phpunit.xml), keduanya via `.env`/phpunit.xml (user `postgres`).
 
 ## Verification commands
 - Single test: `php artisan test --compact --filter=<name>`
