@@ -60,6 +60,23 @@ return [
             'report' => false,
         ],
 
+        'exports' => [
+            'driver' => env('EXPORTS_DISK', env('FILESYSTEM_DISK', 'local')),
+            'root' => env('EXPORTS_DISK', 'local') === 's3'
+                ? ''
+                : storage_path('app/private/exports'),
+            'key' => env('AWS_ACCESS_KEY_ID'),
+            'secret' => env('AWS_SECRET_ACCESS_KEY'),
+            'region' => env('AWS_DEFAULT_REGION'),
+            'bucket' => env('AWS_BUCKET', env('EXPORTS_S3_BUCKET')),
+            'url' => env('AWS_URL'),
+            'endpoint' => env('AWS_ENDPOINT'),
+            'use_path_style_endpoint' => env('AWS_USE_PATH_STYLE_ENDPOINT', false),
+            'visibility' => 'private',
+            'throw' => false,
+            'report' => false,
+        ],
+
     ],
 
     /*

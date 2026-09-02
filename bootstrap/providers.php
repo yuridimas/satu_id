@@ -5,5 +5,6 @@ use App\Providers\FortifyServiceProvider;
 
 return [
     AppServiceProvider::class,
+    EventServiceProvider::class,
     FortifyServiceProvider::class,
 ];
