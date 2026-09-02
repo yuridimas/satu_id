@@ -15,20 +15,30 @@
                     <flux:sidebar.item icon="home" :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate>
                         {{ __('Dashboard') }}
                     </flux:sidebar.item>
+
+                    <flux:sidebar.item icon="shield-check" :href="route('user.authorized-apps')" :current="request()->routeIs('user.authorized-apps')" wire:navigate>
+                        {{ __('Authorized apps') }}
+                    </flux:sidebar.item>
                 </flux:sidebar.group>
+
+                @if (auth()->user()->isSuperuser())
+                    <flux:sidebar.group :heading="__('Administration')" class="grid">
+                        <flux:sidebar.item icon="users" :href="route('admin.users.index')" :current="request()->routeIs('admin.users.*')" wire:navigate>
+                            {{ __('Users') }}
+                        </flux:sidebar.item>
+
+                        <flux:sidebar.item icon="key" :href="route('admin.clients.index')" :current="request()->routeIs('admin.clients.*')" wire:navigate>
+                            {{ __('OAuth2 Clients') }}
+                        </flux:sidebar.item>
+
+                        <flux:sidebar.item icon="clock" :href="route('admin.audits.index')" :current="request()->routeIs('admin.audits.*')" wire:navigate>
+                            {{ __('Audit Logs') }}
+                        </flux:sidebar.item>
+                    </flux:sidebar.group>
+                @endif
             </flux:sidebar.nav>
 
             <flux:spacer />
-
-            <flux:sidebar.nav>
-                <flux:sidebar.item icon="folder-git-2" href="https://github.com/laravel/livewire-starter-kit" target="_blank">
-                    {{ __('Repository') }}
-                </flux:sidebar.item>
-
-                <flux:sidebar.item icon="book-open-text" href="https://laravel.com/docs/starter-kits#livewire" target="_blank">
-                    {{ __('Documentation') }}
-                </flux:sidebar.item>
-            </flux:sidebar.nav>
 
             <x-desktop-user-menu class="hidden lg:block" :name="auth()->user()->name" />
         </flux:sidebar>
