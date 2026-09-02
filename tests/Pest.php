@@ -1,6 +1,10 @@
 <?php
 
+use App\Enums\UserRole;
+use App\Models\OAuthClient;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Laravel\Passport\ClientRepository;
 use Tests\TestCase;
 
 /*
@@ -47,4 +51,16 @@ expect()->extend('toBeOne', function () {
 function something()
 {
     // ..
+}
+
+function createSuperuser(): User
+{
+    return User::factory()->create([
+        'role' => UserRole::Superuser,
+    ]);
+}
+
+function createOAuthClient(string $name = 'Test App', array $redirectUris = ['https://app.test/callback']): OAuthClient
+{
+    return app(ClientRepository::class)->createAuthorizationCodeGrantClient($name, $redirectUris);
 }
