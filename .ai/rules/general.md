@@ -1,6 +1,7 @@
 ---
 paths:
   - phpunit.xml
+  - '**/*.php'
 ---
 
 # General
@@ -10,3 +11,6 @@ Satu ID uses PostgreSQL exclusively. Test suite runs against its own `satu_id_4_
 
 ## Keep APP_LOCALE=en in phpunit.xml
 phpunit.xml pins APP_LOCALE=en because lang assertions (e.g. SecurityTest) match English strings, while the app default locale is `id`. Do not remove APP_LOCALE from phpunit.xml or tests will fail.
+
+## Log out before force-deleting an authenticated user
+Before calling forceDelete() on an authenticated User, log the user out FIRST with Auth::guard('web')->logout(). SessionGuard::logout() cycles the remember token by calling $user->save(); after forceDelete() the model's `exists` is false, so save() performs an INSERT that silently resurrects the deleted row (same id). This bit the settings account-delete SFC.
