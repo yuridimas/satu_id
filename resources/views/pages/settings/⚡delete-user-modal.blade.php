@@ -19,7 +19,16 @@ new class extends Component {
             'password' => $this->currentPasswordRules(),
         ]);
 
-        tap(Auth::user(), $logout(...))->delete();
+        $user = Auth::user();
+
+        $user->tokens()->get()->each(function ($token): void {
+            $token->refreshToken?->revoke();
+            $token->revoke();
+        });
+
+        $logout();
+
+        $user->forceDelete();
 
         $this->redirect('/', navigate: true);
     }
