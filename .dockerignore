@@ -1,0 +1,22 @@
+# Build context ringan & jangan bocorkan secret ke dalam image.
+.git
+.github
+node_modules
+vendor
+.env
+.env.*
+!.env.example
+storage/logs/*
+storage/oauth-*.key
+storage/framework/cache/*
+storage/framework/sessions/*
+storage/framework/views/*
+storage/app/private/exports/*
+bootstrap/cache/*.php
+!bootstrap/cache/.gitignore
+coverage
+.phpunit.result.cache
+.agents
+.claude
+.cursor
+.junie

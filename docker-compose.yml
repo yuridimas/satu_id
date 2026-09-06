@@ -1,0 +1,136 @@
+# SatuID — local development stack (bukan untuk deploy cloud spesifik).
+#
+# Service yang ADA vs yang SENGAJA TIDAK ADA (hasil scan kode):
+#  - Tanpa redis ......... CACHE_STORE, QUEUE_CONNECTION, SESSION_DRIVER = database.
+#  - Dengan queue ......... export XLSX jalan async (GenerateExportJob).
+#  - Dengan scheduler ..... exports:prune harian (schedule:work, bukan cron).
+#  - Tanpa vite ........... hot-reload jalan di host via `npm run dev` (lihat DOCKER.md).
+#  - Tanpa service UM ..... tidak ada dependensi service eksternal di kode.
+#
+# PERINGATAN VOLUME (baca sebelum `docker compose down -v`):
+#  - `pgdata` menyimpan SELURUH database Postgres.
+#  - `app-storage` menyimpan storage/ Laravel, termasuk Passport encryption
+#    keys (storage/oauth-private.key & oauth-public.key). Kalau volume ini
+#    dihapus, key BARU akan di-generate saat boot berikutnya dan SEMUA token
+#    OAuth yang sudah terbit ke user langsung INVALID.
+
+services:
+  app:
+    build: .
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+      migrate:
+        condition: service_completed_successfully
+    env_file: .env
+    environment:
+      DB_HOST: db
+      APP_URL: http://localhost:8080
+    volumes:
+      - .:/var/www/html
+      - vendor:/var/www/html/vendor
+      - app-build:/var/www/html/public/build
+      - app-storage:/var/www/html/storage
+      - bootstrap-cache:/var/www/html/bootstrap/cache
+
+  web:
+    image: nginx:stable-alpine
+    restart: unless-stopped
+    depends_on:
+      - app
+    ports:
+      - "8080:80"
+    volumes:
+      - ./public:/var/www/html/public:ro
+      - app-build:/var/www/html/public/build:ro
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+
+  db:
+    image: postgres:17-alpine
+    restart: unless-stopped
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: satu_id_4
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d satu_id_4"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  # Run-once: migration aman multi-container (bukan di entrypoint app,
+  # supaya start bersamaan tidak race condition). TIDAK menjalankan seeder:
+  # DatabaseSeeder tidak idempotent (Test User duplikat) — seed manual sekali.
+  migrate:
+    build: .
+    restart: "no"
+    depends_on:
+      db:
+        condition: service_healthy
+    env_file: .env
+    environment:
+      DB_HOST: db
+      APP_URL: http://localhost:8080
+    volumes:
+      - .:/var/www/html
+      - vendor:/var/www/html/vendor
+      - app-build:/var/www/html/public/build
+      - app-storage:/var/www/html/storage
+      - bootstrap-cache:/var/www/html/bootstrap/cache
+    command: ["php", "artisan", "migrate", "--force", "--no-interaction"]
+
+  queue:
+    build: .
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+      migrate:
+        condition: service_completed_successfully
+    env_file: .env
+    environment:
+      DB_HOST: db
+      APP_URL: http://localhost:8080
+    volumes:
+      - .:/var/www/html
+      - vendor:/var/www/html/vendor
+      - app-build:/var/www/html/public/build
+      - app-storage:/var/www/html/storage
+      - bootstrap-cache:/var/www/html/bootstrap/cache
+    command: ["php", "artisan", "queue:work", "--sleep=3", "--tries=3", "--max-time=3600"]
+
+  scheduler:
+    build: .
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+      migrate:
+        condition: service_completed_successfully
+    env_file: .env
+    environment:
+      DB_HOST: db
+      APP_URL: http://localhost:8080
+    volumes:
+      - .:/var/www/html
+      - vendor:/var/www/html/vendor
+      - app-build:/var/www/html/public/build
+      - app-storage:/var/www/html/storage
+      - bootstrap-cache:/var/www/html/bootstrap/cache
+    # schedule:work = loop foreground sendiri (bukan schedule:run via cron).
+    # Menjalankan exports:prune harian + scheduler lain di routes/console.php.
+    command: ["php", "artisan", "schedule:work"]
+
+volumes:
+  pgdata:
+  vendor:
+  app-build:
+  app-storage:
+  bootstrap-cache:
+
+

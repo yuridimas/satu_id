@@ -152,6 +152,20 @@ composer run types:check                   # PHPStan saja
 
 Cakupan (saat README ditulis: 74 test / 231 assertions, Pest): manajemen user & client admin, export XLSX, authorized apps, login user nonaktif, autentikasi Fortify (registrasi, login, 2FA, reset password, verifikasi email), dan settings (profile, security).
 
+## Menjalankan dengan Docker
+
+Tersedia stack local-dev (`app` PHP-FPM 8.5 + Nginx + Postgres 17 +
+worker queue + scheduler). Panduan lengkap ada di [DOCKER.md](DOCKER.md):
+
+```bash
+docker compose up --build -d
+docker compose exec app php artisan db:seed --class=SuperuserSeeder   # sekali saja di volume fresh
+```
+
+Buka `http://localhost:8080`. Perhatian: jangan `docker compose down -v`
+sembarangan — volume `app-storage` menyimpan Passport encryption keys;
+key baru meng-invalid-kan semua token user yang sudah terbit.
+
 ## Catatan / Batasan
 
 - Ini **project portofolio/pembelajaran** — jangan dipakai di sistem instansi sungguhan tanpa audit keamanan tambahan (review secret handling, rate limiting endpoint token, hardening session, dsb.).
