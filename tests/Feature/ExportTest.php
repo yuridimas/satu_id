@@ -1,7 +1,9 @@
 <?php
 
+use App\Jobs\GenerateExportJob;
 use App\Models\ExportHistory;
 use App\Models\User;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Livewire;
 
@@ -77,4 +79,31 @@ test('prune command deletes file and row after 7 days', function () {
     $this->artisan('exports:prune')->assertExitCode(0);
     expect(ExportHistory::find($history->id))->toBeNull();
     Storage::disk('exports')->assertMissing($file);
+});
+
+test('failed export generation marks history failed and logs a structured error', function () {
+    Log::spy();
+
+    $superuser = User::factory()->create(['role' => 'superuser']);
+    $history = ExportHistory::create([
+        'type' => 'users',
+        'file' => 'failed.xlsx',
+        'row_count' => 0,
+        'progress' => 10,
+        'status' => 'processing',
+        'user_id' => $superuser->id,
+    ]);
+
+    expect(fn () => (new GenerateExportJob($history->id, 'unknown-type'))->handle())
+        ->toThrow(InvalidArgumentException::class);
+
+    expect($history->fresh()->status)->toBe('failed');
+
+    Log::shouldHaveReceived('error')->once()->withArgs(
+        fn (string $message, array $context) => $message === 'Failed to generate export file'
+            && ($context['history_id'] ?? null) === $history->id
+            && ($context['type'] ?? null) === 'unknown-type'
+            && ($context['user_id'] ?? null) === $superuser->id
+            && isset($context['exception'], $context['trace'])
+    );
 });
