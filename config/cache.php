@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 
 return [
@@ -126,11 +127,17 @@ return [
     |--------------------------------------------------------------------------
     |
     | This value determines the classes that can be unserialized from cache
-    | storage. By default, no PHP classes will be unserialized from your
-    | cache to prevent gadget chain attacks if your APP_KEY is leaked.
+    | storage. Denying every class (false) prevents gadget chain attacks
+    | if your APP_KEY is leaked — but Pulse caches Collections of stdClass
+    | via Cache::flexible(), which breaks with a blanket deny (dashboard
+    | cards crash calling methods on incomplete objects). Keep this an
+    | explicit allow-list: never set it to true.
     |
     */
 
-    'serializable_classes' => false,
+    'serializable_classes' => [
+        Collection::class,
+        stdClass::class,
+    ],
 
 ];
