@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 use Laravel\Fortify\Actions\ConfirmTwoFactorAuthentication;
 use Laravel\Fortify\Actions\EnableTwoFactorAuthentication;
 use Livewire\Attributes\Computed;
@@ -56,8 +58,17 @@ new class extends Component {
 
             $this->qrCodeSvg = $user->twoFactorQrCodeSvg();
             $this->manualSetupKey = decrypt($user->two_factor_secret);
-        } catch (Exception) {
-            $this->addError('setupData', 'Failed to fetch setup data.');
+        } catch (Exception $e) {
+            $referenceId = (string) Str::uuid();
+
+            Log::error('Failed to load two-factor setup data: '.$referenceId, [
+                'reference_id' => $referenceId,
+                'exception' => $e->getMessage(),
+                'trace' => $e->getTraceAsString(),
+                'user_id' => $user?->getKey(),
+            ]);
+
+            $this->addError('setupData', __('errors.generic_action_failed', ['ref' => $referenceId]));
 
             $this->reset('qrCodeSvg', 'manualSetupKey');
         }

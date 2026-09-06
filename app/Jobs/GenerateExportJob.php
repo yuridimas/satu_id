@@ -9,6 +9,7 @@ use App\Models\ExportHistory;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
 use Maatwebsite\Excel\Facades\Excel;
 
 class GenerateExportJob implements ShouldQueue
@@ -59,6 +60,16 @@ class GenerateExportJob implements ShouldQueue
         } catch (\Throwable $e) {
             $history->update(['status' => 'failed', 'progress' => 0]);
             Cache::forget("export:progress:{$history->id}");
+
+            Log::error('Failed to generate export file', [
+                'exception' => $e->getMessage(),
+                'trace' => $e->getTraceAsString(),
+                'history_id' => $history->id,
+                'type' => $this->type,
+                'user_id' => $history->user_id,
+                'filters' => $this->filters,
+            ]);
+
             throw $e;
         }
     }

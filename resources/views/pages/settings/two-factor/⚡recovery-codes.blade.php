@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 use Laravel\Fortify\Actions\GenerateNewRecoveryCodes;
 use Livewire\Attributes\Locked;
 use Livewire\Component;
@@ -36,8 +38,17 @@ new class extends Component {
         if ($user->hasEnabledTwoFactorAuthentication() && $user->two_factor_recovery_codes) {
             try {
                 $this->recoveryCodes = json_decode(decrypt($user->two_factor_recovery_codes), true);
-            } catch (Exception) {
-                $this->addError('recoveryCodes', 'Failed to load recovery codes');
+            } catch (Exception $e) {
+                $referenceId = (string) Str::uuid();
+
+                Log::error('Failed to load two-factor recovery codes: '.$referenceId, [
+                    'reference_id' => $referenceId,
+                    'exception' => $e->getMessage(),
+                    'trace' => $e->getTraceAsString(),
+                    'user_id' => $user->getKey(),
+                ]);
+
+                $this->addError('recoveryCodes', __('errors.generic_action_failed', ['ref' => $referenceId]));
 
                 $this->recoveryCodes = [];
             }

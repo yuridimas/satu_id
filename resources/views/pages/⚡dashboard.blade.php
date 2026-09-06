@@ -6,6 +6,7 @@ use App\Models\OAuthClient;
 use App\Models\User;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Queue;
 use Laravel\Passport\Token;
 use Livewire\Attributes\Computed;
@@ -101,6 +102,11 @@ new #[Title('Dashboard')] class extends Component {
             DB::select('select 1');
         } catch (\Throwable $e) {
             $dbOk = false;
+
+            Log::warning('Dashboard database health probe failed', [
+                'exception' => $e->getMessage(),
+                'user_id' => auth()->id(),
+            ]);
         }
 
         $queueSize = 0;
