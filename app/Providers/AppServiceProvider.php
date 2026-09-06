@@ -41,6 +41,10 @@ class AppServiceProvider extends ServiceProvider
     {
         Gate::define('view-admin', fn (User $user): bool => $user->isSuperuser());
 
+        // Pulse's Authorize middleware hits this gate for guests too
+        // (its route has no auth middleware), so the user must be nullable.
+        Gate::define('viewPulse', fn (?User $user): bool => $user?->isSuperuser() ?? false);
+
         Gate::policy(User::class, UserPolicy::class);
         Gate::policy(OAuthClient::class, ClientPolicy::class);
     }

@@ -34,6 +34,10 @@
                         <flux:sidebar.item icon="clock" :href="route('admin.audits.index')" :current="request()->routeIs('admin.audits.*')" wire:navigate>
                             {{ __('Audit Logs') }}
                         </flux:sidebar.item>
+
+                        <flux:sidebar.item icon="presentation-chart-line" :href="route('pulse')" target="_blank">
+                            {{ __('Monitoring') }}
+                        </flux:sidebar.item>
                     </flux:sidebar.group>
                 @endif
             </flux:sidebar.nav>
