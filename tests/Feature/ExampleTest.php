@@ -5,3 +5,10 @@ test('returns a successful response', function () {
 
     $response->assertOk();
 });
+
+test('landing page presents SatuID branding', function () {
+    $this->get(route('home'))
+        ->assertOk()
+        ->assertSee('SatuID')
+        ->assertSee(route('login'), false);
+});
