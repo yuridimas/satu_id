@@ -1,0 +1,12 @@
+# Environment files
+.env
+.env.local
+
+# Editor config
+.vscode/settings.json
+
+# Orca/Opencode config
+opencode.json
+
+# AI agent files
+AGENTS.md

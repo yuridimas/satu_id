@@ -1,0 +1,6 @@
+worktree:
+  sharedDirectories:
+    - node_modules
+    - vendor
+    - .agents
+    - .ai
