@@ -12,6 +12,8 @@
 
         @fonts
         @vite(['resources/css/app.css'])
+        @fluxAppearance
+        @include('partials.appearance-default')
     </head>
     <body class="min-h-screen bg-white font-sans text-zinc-900 antialiased dark:bg-zinc-950 dark:text-zinc-100">
         {{-- Navbar --}}
@@ -184,5 +186,7 @@
                 </p>
             </div>
         </footer>
+
+        @fluxScripts
     </body>
 </html>
