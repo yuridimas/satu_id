@@ -23,3 +23,16 @@ yarn-error.log
 /.vscode
 /.zed
 /docs/designs/
+
+# AI agent workspaces, skills, and instructions (local-only, never commit)
+/.agents/
+/.ai/
+/.claude/
+/.cursor/
+/.junie/
+/.opencode/
+/.codex/
+CLAUDE.md
+AGENTS.md
+.cursorrules
+.muserules
