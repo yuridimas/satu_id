@@ -21,8 +21,13 @@ driver `database` (lihat `.env.example`).
 docker compose up --build -d
 ```
 
-Service `migrate` otomatis menjalankan `php artisan migrate --force`
-setelah Postgres healthy, lalu `app`/`queue`/`scheduler` start. Cek:
+Tunggu Postgres healthy, lalu jalankan migration manual sekali via `app`:
+
+```bash
+docker compose exec app php artisan migrate --force
+```
+
+Cek:
 
 ```bash
 docker compose ps
@@ -30,6 +35,17 @@ docker compose logs -f app
 ```
 
 Buka `http://localhost:8080`.
+
+## Migration susulan & rollback
+
+Tidak ada service migrate khusus — semua lewat `exec` ke `app`:
+
+```bash
+docker compose exec app php artisan migrate --force          # jalankan pending migration
+docker compose exec app php artisan migrate:status           # lihat status batch
+docker compose exec app php artisan migrate:rollback --force # rollback batch terakhir
+docker compose exec app php artisan migrate:fresh --force    # hapus SEMUA tabel + migrate ulang (data hilang!)
+```
 
 ## Seeder (sekali saja, di volume fresh)
 
