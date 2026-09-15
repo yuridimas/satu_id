@@ -1,0 +1,45 @@
+# SatuID — PRODUCTION override: immutable + tertutup.
+#
+#   ENV_FILE=.env.production docker compose -f docker-compose.yml -f docker-compose.production.yml up --build -d
+#
+# Beda dari base: APP_DEBUG dipaksa mati (menang atas env file), DB tidak
+# dipublish ke host, dan ada batas resource. Kode murni dari image
+# (tanpa bind-mount); asset dari volume app-public hasil build.
+
+services:
+  app:
+    environment:
+      DB_HOST: db
+      APP_DEBUG: "false"
+    deploy:
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: 512M
+
+  web:
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 128M
+
+  queue:
+    environment:
+      DB_HOST: db
+      APP_DEBUG: "false"
+    deploy:
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: 512M
+
+  scheduler:
+    environment:
+      DB_HOST: db
+      APP_DEBUG: "false"
+    deploy:
+      resources:
+        limits:
+          cpus: "0.25"
+          memory: 256M

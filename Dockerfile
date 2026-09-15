@@ -29,16 +29,16 @@ FROM node:22-bookworm-slim AS node
 
 WORKDIR /app
 
-COPY package.json package-lock.json ./
+COPY package.json pnpm-lock.yaml ./
 
-RUN npm ci --no-audit --no-fund
+RUN corepack enable pnpm && pnpm install --frozen-lockfile
 
 COPY . .
 
 # CSS mengacu ke file di vendor/ (flux dist, pagination views) — bukan dari npm.
 COPY --from=composer /app/vendor ./vendor
 
-RUN npm run build
+RUN pnpm run build
 
 # ----------------------------------------------------------------- stage: app
 FROM php:8.5-fpm-bookworm AS app

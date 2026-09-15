@@ -6,6 +6,7 @@ vendor
 .env
 .env.*
 !.env.example
+pnpm-lock.yaml
 storage/logs/*
 storage/oauth-*.key
 storage/framework/cache/*

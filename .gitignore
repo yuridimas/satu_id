@@ -16,6 +16,7 @@ Homestead.json
 Homestead.yaml
 npm-debug.log
 yarn-error.log
+pnpm-debug.log
 /auth.json
 /.fleet
 /.idea
@@ -36,3 +37,5 @@ CLAUDE.md
 AGENTS.md
 .cursorrules
 .muserules
+.env.staging
+.env.local

@@ -1,0 +1,25 @@
+# SatuID — STAGING override: semirip mungkin dengan production, tapi DB
+# dipublish untuk inspeksi dan APP_ENV=staging.
+#
+#   ENV_FILE=.env.staging docker compose -f docker-compose.yml -f docker-compose.staging.yml up --build -d
+#
+# Asset disajikan dari hasil build image (volume app-public) — TIDAK ada
+# bind-mount source. Setiap rilis: build ulang + reset volume yang
+# menimpa hasil image bila perlu (lihat DOCKER.md).
+
+services:
+  app:
+    environment:
+      DB_HOST: db
+
+  db:
+    ports:
+      - "5432:5432"
+
+  queue:
+    environment:
+      DB_HOST: db
+
+  scheduler:
+    environment:
+      DB_HOST: db
