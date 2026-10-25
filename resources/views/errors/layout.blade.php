@@ -1,88 +1,43 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>{{ $exception->getStatusCode() }} - {{ $exception->getMessage() }}</title>
-
-        <style>
-            * {
-                box-sizing: border-box;
+        @include('partials.head', ['title' => trim($__env->yieldContent('title'))])
+        <script id="theme-default">
+            try {
+                if (window.localStorage.getItem('flux.appearance') === null) {
+                    window.Flux.applyAppearance('light');
+                }
+            } catch (error) {
+                document.documentElement.classList.remove('dark');
             }
-
-            body {
-                font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-                font-size: 1rem;
-                font-weight: 400;
-                line-height: 1.5;
-                color: #212529;
-                text-align: center;
-                background-color: #f8f9fa;
-                margin: 0;
-                padding: 0;
-            }
-
-            .container {
-                max-width: 600px;
-                margin: 100px auto;
-                padding: 0 15px;
-            }
-
-            h1 {
-                font-size: 6rem;
-                font-weight: 700;
-                line-height: 1.2;
-                margin-bottom: 0.5rem;
-                color: #dc3545;
-            }
-
-            p {
-                font-size: 1.5rem;
-                color: #6c757d;
-                margin-bottom: 1.5rem;
-            }
-
-            a {
-                color: #0d6efd;
-                text-decoration: none;
-            }
-
-            a:hover {
-                text-decoration: underline;
-            }
-
-            .btn {
-                display: inline-block;
-                font-weight: 400;
-                text-align: center;
-                white-space: nowrap;
-                vertical-align: middle;
-                user-select: none;
-                border: 1px solid transparent;
-                padding: 0.375rem 0.75rem;
-                font-size: 1rem;
-                line-height: 1.5;
-                border-radius: 0.25rem;
-                transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
-            }
-
-            .btn-primary {
-                color: #fff;
-                background-color: #0d6efd;
-                border-color: #0d6efd;
-            }
-
-            .btn-primary:hover {
-                background-color: #0b5ed7;
-                border-color: #0a58ca;
-            }
-        </style>
+        </script>
     </head>
-    <body>
-        <div class="container">
-            <h1>{{ $exception->getStatusCode() }}</h1>
-            <p>{{ $exception->getMessage() }}</p>
-            <a href="{{ url('/') }}" class="btn btn-primary">{{ __('Go Home') }}</a>
-        </div>
+    <body class="min-h-screen bg-white font-sans text-zinc-900 antialiased dark:bg-zinc-950 dark:text-zinc-100">
+        <main class="flex min-h-svh flex-col items-center justify-center gap-10 px-6 py-12 sm:px-8">
+            <a href="{{ route('home') }}" class="flex items-center gap-2.5 rounded-lg focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-purple-600 dark:focus-visible:outline-purple-400">
+                <span class="flex size-9 items-center justify-center rounded-xl bg-indigo-600 text-white">
+                    <flux:icon.key class="size-5" />
+                </span>
+                <span class="text-lg font-bold tracking-tight">SatuID</span>
+            </a>
+
+            <div class="w-full max-w-lg text-center">
+                <p class="text-7xl font-semibold tracking-tight text-zinc-500 sm:text-8xl dark:text-zinc-400">@yield('code')</p>
+                <h1 class="mt-6 text-2xl font-semibold tracking-tight sm:text-3xl">@yield('message')</h1>
+
+                @hasSection('description')
+                    <p class="mt-4 text-base leading-7 text-zinc-600 dark:text-zinc-400">@yield('description')</p>
+                @endif
+
+                <div class="mt-8 flex flex-col items-stretch justify-center gap-3 sm:flex-row sm:items-center">
+                    <flux:button :href="route('home')" variant="primary" color="purple">
+                        {{ __('Go Home') }}
+                    </flux:button>
+                    @yield('action')
+                </div>
+            </div>
+        </main>
+
+        @fluxScripts
     </body>
 </html>
