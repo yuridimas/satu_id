@@ -113,9 +113,6 @@ new #[Title('Audit Logs')] class extends Component {
             <flux:button variant="ghost" :href="route('admin.exports.show', 'audits')" wire:navigate icon="arrow-down-tray">
                 {{ __('Export') }}
             </flux:button>
-            <flux:button variant="ghost" :href="route('dashboard')" wire:navigate icon="arrow-left">
-                {{ __('Back to dashboard') }}
-            </flux:button>
         </div>
     </div>
 

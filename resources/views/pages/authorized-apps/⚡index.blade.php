@@ -107,9 +107,6 @@ new #[Title('Authorized applications')] class extends Component {
             <flux:subheading size="lg">{{ __('Applications with access to your account') }}</flux:subheading>
         </div>
 
-        <flux:button variant="ghost" href="{{ route('dashboard') }}" wire:navigate>
-            {{ __('Back') }}
-        </flux:button>
     </div>
 
     @if ($this->activeTokenCount === 0)
