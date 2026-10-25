@@ -11,16 +11,18 @@ test('user row actions use semantic colors for both enabled states', function ()
     User::factory()->create(['active' => false]);
 
     Livewire::actingAs($superuser)->test('pages::users.index')
-        ->assertSee('text-slate-600')
-        ->assertSee('dark:text-slate-400')
-        ->assertSee('text-blue-600')
-        ->assertSee('dark:text-blue-400')
-        ->assertSee('text-emerald-600')
-        ->assertSee('dark:text-emerald-400')
-        ->assertSee('text-amber-600')
-        ->assertSee('dark:text-amber-400')
-        ->assertSee('text-red-600')
-        ->assertSee('dark:text-red-400');
+        ->assertSee('text-slate-600!')
+        ->assertSee('dark:text-slate-400!')
+        ->assertSee('hover:bg-slate-100!')
+        ->assertSee('dark:hover:bg-slate-800!')
+        ->assertSee('text-blue-600!')
+        ->assertSee('dark:text-blue-400!')
+        ->assertSee('text-emerald-600!')
+        ->assertSee('dark:text-emerald-400!')
+        ->assertSee('text-amber-600!')
+        ->assertSee('dark:text-amber-400!')
+        ->assertSee('text-red-600!')
+        ->assertSee('dark:text-red-400!');
 });
 
 test('client row actions use semantic colors for both active states', function () {
@@ -30,16 +32,16 @@ test('client row actions use semantic colors for both active states', function (
     $revokedClient->update(['revoked' => true]);
 
     Livewire::actingAs($superuser)->test('pages::clients.index')
-        ->assertSee('text-slate-600')
-        ->assertSee('dark:text-slate-400')
-        ->assertSee('text-blue-600')
-        ->assertSee('dark:text-blue-400')
-        ->assertSee('text-emerald-600')
-        ->assertSee('dark:text-emerald-400')
-        ->assertSee('text-amber-600')
-        ->assertSee('dark:text-amber-400')
-        ->assertSee('text-red-600')
-        ->assertSee('dark:text-red-400');
+        ->assertSee('text-slate-600!')
+        ->assertSee('dark:text-slate-400!')
+        ->assertSee('text-blue-600!')
+        ->assertSee('dark:text-blue-400!')
+        ->assertSee('text-emerald-600!')
+        ->assertSee('dark:text-emerald-400!')
+        ->assertSee('text-amber-600!')
+        ->assertSee('dark:text-amber-400!')
+        ->assertSee('text-red-600!')
+        ->assertSee('dark:text-red-400!');
 });
 
 test('trashed user row actions use view and restore colors', function () {
@@ -48,10 +50,10 @@ test('trashed user row actions use view and restore colors', function () {
     $deletedUser->delete();
 
     Livewire::actingAs($superuser)->test('pages::users.trash')
-        ->assertSee('text-slate-600')
-        ->assertSee('dark:text-slate-400')
-        ->assertSee('text-emerald-600')
-        ->assertSee('dark:text-emerald-400');
+        ->assertSee('text-slate-600!')
+        ->assertSee('dark:text-slate-400!')
+        ->assertSee('text-emerald-600!')
+        ->assertSee('dark:text-emerald-400!');
 });
 
 test('completed export history download uses violet colors', function () {
@@ -68,6 +70,6 @@ test('completed export history download uses violet colors', function () {
     ]);
 
     Livewire::actingAs($superuser)->test('pages::exports.show', ['type' => 'users'])
-        ->assertSee('text-violet-600')
-        ->assertSee('dark:text-violet-400');
+        ->assertSee('text-violet-600!')
+        ->assertSee('dark:text-violet-400!');
 });

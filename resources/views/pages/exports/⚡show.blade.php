@@ -198,7 +198,7 @@ new #[Title('Export')] class extends Component {
                             </flux:table.cell>
                             <flux:table.cell class="last:!pe-4 text-right">
                                 @if ($h->status === 'completed')
-                                    <flux:button :href="route('admin.exports.history.download', $h)" icon="arrow-down-tray" variant="ghost" size="sm" target="_blank" class="text-violet-600 hover:text-violet-700 hover:bg-violet-50 dark:text-violet-400 dark:hover:text-violet-300 dark:hover:bg-violet-950/50">
+                                    <flux:button :href="route('admin.exports.history.download', $h)" icon="arrow-down-tray" variant="ghost" size="sm" target="_blank" class="text-violet-600! hover:text-violet-700! hover:bg-violet-50! dark:text-violet-400! dark:hover:text-violet-300! dark:hover:bg-violet-950/50!">
                                         {{ __('Download') }}
                                     </flux:button>
                                 @elseif ($h->status === 'failed')

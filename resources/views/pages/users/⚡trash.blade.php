@@ -149,7 +149,7 @@ new #[Title('Trashed users')] class extends Component {
                                     tooltip="{{ __('View') }}"
                                     variant="ghost"
                                     size="sm"
-                                    class="text-slate-600 hover:text-slate-700 hover:bg-slate-100 dark:text-slate-400 dark:hover:text-slate-300 dark:hover:bg-slate-800"
+                                    class="text-slate-600! hover:text-slate-700! hover:bg-slate-100! dark:text-slate-400! dark:hover:text-slate-300! dark:hover:bg-slate-800!"
                                 />
                                 <flux:button
                                     wire:click="restore({{ $user->id }})"
@@ -157,7 +157,7 @@ new #[Title('Trashed users')] class extends Component {
                                     tooltip="{{ __('Restore') }}"
                                     variant="ghost"
                                     size="sm"
-                                    class="text-emerald-600 hover:text-emerald-700 hover:bg-emerald-50 dark:text-emerald-400 dark:hover:text-emerald-300 dark:hover:bg-emerald-950/50"
+                                    class="text-emerald-600! hover:text-emerald-700! hover:bg-emerald-50! dark:text-emerald-400! dark:hover:text-emerald-300! dark:hover:bg-emerald-950/50!"
                                 >
                                     {{ __('Restore') }}
                                 </flux:button>
