@@ -242,7 +242,7 @@ new #[Title('Users')] class extends Component {
         </div>
     </flux:card>
 
-    <div class="mt-6 overflow-hidden rounded-xl border border-zinc-200 dark:border-zinc-700">
+    <flux:card class="mt-6 overflow-hidden rounded-xl border border-zinc-200 dark:border-zinc-700">
         <flux:table>
             <flux:table.columns>
                 <flux:table.column class="w-[26%] first:!ps-4">{{ __('Name') }}</flux:table.column>
@@ -323,7 +323,7 @@ new #[Title('Users')] class extends Component {
                 @endforelse
             </flux:table.rows>
         </flux:table>
-    </div>
+    </flux:card>
 
     <div class="mt-4">
         {{ $this->users->links() }}

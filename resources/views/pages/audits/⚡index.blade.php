@@ -169,7 +169,7 @@ new #[Title('Audit Logs')] class extends Component {
         </div>
     </flux:card>
 
-    <div class="mt-6 overflow-hidden rounded-xl border border-zinc-200 dark:border-zinc-700">
+    <flux:card class="mt-6 overflow-hidden rounded-xl border border-zinc-200 dark:border-zinc-700">
         <flux:table>
             <flux:table.columns>
                 <flux:table.column class="w-[160px] first:!ps-4">{{ __('Time') }}</flux:table.column>
@@ -212,7 +212,7 @@ new #[Title('Audit Logs')] class extends Component {
                 @endforelse
             </flux:table.rows>
         </flux:table>
-    </div>
+    </flux:card>
 
     <div class="mt-4">
         {{ $this->audits->links() }}
