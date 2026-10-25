@@ -23,7 +23,7 @@ pnpm-debug.log
 /.nova
 /.vscode
 /.zed
-/docs/designs/
+/docs
 
 # AI agent workspaces, skills, and instructions (local-only, never commit)
 /.agents/
@@ -33,6 +33,7 @@ pnpm-debug.log
 /.junie/
 /.opencode/
 /.codex/
+/.superpowers
 CLAUDE.md
 AGENTS.md
 .cursorrules
