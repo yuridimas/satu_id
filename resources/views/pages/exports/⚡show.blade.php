@@ -146,10 +146,22 @@ new #[Title('Export')] class extends Component {
         </flux:card>
     @endif
 
-    <flux:callout variant="info" icon="information-circle" class="mt-6">
-        <flux:heading size="sm">{{ __('Info penyimpanan') }}</flux:heading>
-        <flux:text class="text-sm">{{ __('Semua riwayat export akan otomatis terhapus 7 hari ke depan. File di storage/S3 ikut terhapus agar tidak membengkak. Link download tanpa batas waktu selama riwayat masih ada.') }}</flux:text>
-    </flux:callout>
+    <div class="mt-6 rounded-lg border border-zinc-200 border-l-4 border-l-indigo-600 bg-white p-4 shadow-xs dark:border-zinc-800 dark:border-l-indigo-500 dark:bg-zinc-900">
+        <div class="flex items-start gap-3">
+            <flux:icon.information-circle class="size-5 text-indigo-600 dark:text-indigo-400 shrink-0 mt-0.5" />
+            <div class="space-y-1">
+                <div class="flex items-center gap-2">
+                    <h4 class="text-sm font-semibold text-zinc-900 dark:text-white">{{ __('Info penyimpanan') }}</h4>
+                    <span class="rounded bg-indigo-50 px-1.5 py-0.5 text-[10px] font-semibold text-indigo-700 dark:bg-indigo-950/60 dark:text-indigo-300">
+                        {{ __('RETENTION 7 HARI') }}
+                    </span>
+                </div>
+                <p class="text-xs leading-relaxed text-zinc-600 dark:text-zinc-400">
+                    {{ __('Semua riwayat export akan otomatis terhapus 7 hari ke depan. File di storage/S3 ikut terhapus agar tidak membengkak. Link download tanpa batas waktu selama riwayat masih ada.') }}
+                </p>
+            </div>
+        </div>
+    </div>
 
     <flux:card class="mt-6">
         <div class="flex items-center justify-between">
