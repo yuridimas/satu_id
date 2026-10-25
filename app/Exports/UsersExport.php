@@ -38,7 +38,7 @@ class UsersExport implements FromQuery, ShouldAutoSize, WithChunkReading, WithHe
 
     public function headings(): array
     {
-        return [__('ID'), __('Nama'), __('Email'), __('Status'), __('Dibuat')];
+        return [__('ID'), __('Name'), __('Email'), __('Status'), __('Created at')];
     }
 
     /**

@@ -39,7 +39,7 @@ class AuditsExport implements FromQuery, ShouldAutoSize, WithChunkReading, WithH
 
     public function headings(): array
     {
-        return [__('Waktu'), __('Event'), __('Auditable'), __('Actor'), __('IP'), __('User Agent'), __('Old Values'), __('New Values'), __('Tags')];
+        return [__('Time'), __('Event'), __('Auditable'), __('Actor'), __('IP'), __('User Agent'), __('Old Values'), __('New Values'), __('Tags')];
     }
 
     /**

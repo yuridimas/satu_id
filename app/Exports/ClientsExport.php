@@ -32,7 +32,7 @@ class ClientsExport implements FromQuery, ShouldAutoSize, WithChunkReading, With
 
     public function headings(): array
     {
-        return [__('ID'), __('Nama'), __('Grant'), __('Redirect URIs'), __('Confidential'), __('Status'), __('Dibuat')];
+        return [__('ID'), __('Name'), __('Grant'), __('Redirect URIs'), __('Confidential'), __('Status'), __('Created at')];
     }
 
     /**

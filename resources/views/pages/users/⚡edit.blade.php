@@ -73,7 +73,7 @@ new #[Title('Edit user')] class extends Component {
         </div>
 
         <flux:button variant="ghost" :href="route('admin.users.index')" wire:navigate icon="arrow-left">
-            {{ __('Kembali') }}
+            {{ __('Back') }}
         </flux:button>
     </div>
 

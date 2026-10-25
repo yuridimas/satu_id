@@ -233,7 +233,7 @@ new #[Title('Users')] class extends Component {
             </div>
             <div class="flex gap-2 sm:pb-0.5">
                 <flux:button variant="primary" wire:click="applyFilters" icon="funnel">
-                    {{ __('Terapkan') }}
+                    {{ __('Apply') }}
                 </flux:button>
                 <flux:button variant="ghost" wire:click="resetFilters" icon="x-mark">
                     {{ __('Reset') }}

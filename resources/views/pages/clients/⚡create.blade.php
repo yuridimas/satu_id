@@ -70,7 +70,7 @@ new #[Title('Create OAuth2 client')] class extends Component {
         </div>
 
         <flux:button variant="ghost" :href="route('admin.clients.index')" wire:navigate icon="arrow-left">
-            {{ __('Kembali') }}
+            {{ __('Back') }}
         </flux:button>
     </div>
 

@@ -27,6 +27,7 @@ class GenerateExportJob implements ShouldQueue
         public int $historyId,
         public string $type,
         public array $filters = [],
+        public string $locale = 'en',
     ) {}
 
     public function handle(): void
@@ -39,6 +40,9 @@ class GenerateExportJob implements ShouldQueue
 
         $history->update(['status' => 'processing', 'progress' => 10]);
         Cache::put("export:progress:{$history->id}", 10, 600);
+
+        $workerLocale = app()->getLocale();
+        app()->setLocale($this->locale);
 
         try {
             $export = match ($this->type) {
@@ -71,6 +75,8 @@ class GenerateExportJob implements ShouldQueue
             ]);
 
             throw $e;
+        } finally {
+            app()->setLocale($workerLocale);
         }
     }
 

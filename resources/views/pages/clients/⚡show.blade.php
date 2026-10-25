@@ -145,7 +145,7 @@ new #[Title('OAuth2 client details')] class extends Component {
                 {{ __('Edit') }}
             </flux:button>
             <flux:button variant="ghost" :href="route('admin.clients.index')" wire:navigate icon="arrow-left">
-                {{ __('Kembali') }}
+                {{ __('Back') }}
             </flux:button>
         </div>
     </div>
@@ -221,7 +221,7 @@ new #[Title('OAuth2 client details')] class extends Component {
                     <flux:table.cell class="w-[180px] font-medium">{{ __('Client secret') }}</flux:table.cell>
                     <flux:table.cell class="!whitespace-normal">
                         <span class="font-mono">••••••••</span>
-                        <flux:text variant="subtle" class="mt-1 block text-xs !whitespace-normal break-words text-wrap">{{ __('Secret tersimpan sebagai hash. Hanya tampil plain sekali di notifikasi atas setelah rotasi.') }}</flux:text>
+                        <flux:text variant="subtle" class="mt-1 block text-xs !whitespace-normal break-words text-wrap">{{ __('The secret is stored as a hash. It is shown as plain text only once in the notification above after rotation.') }}</flux:text>
                     </flux:table.cell>
                 </flux:table.row>
                     <flux:table.row>
@@ -242,8 +242,8 @@ new #[Title('OAuth2 client details')] class extends Component {
                     <flux:icon.code-bracket class="size-5" />
                 </div>
                 <div>
-                    <flux:heading size="sm">{{ __('Panduan Integrasi') }}</flux:heading>
-                    <flux:text class="mt-1 text-sm">{{ __('Contoh OAuth2 untuk berbagai bahasa — ganti env sesuai client.') }}</flux:text>
+                    <flux:heading size="sm">{{ __('Integration guide') }}</flux:heading>
+                    <flux:text class="mt-1 text-sm">{{ __('OAuth2 examples in several languages — update the environment for your client.') }}</flux:text>
                 </div>
             </div>
 
@@ -319,7 +319,7 @@ defer resp.Body.Close()</code></pre>
             </div>
 
             <flux:text variant="subtle" class="mt-3 text-xs">
-                {{ __('Scope default kosong. Tambahkan scope di authorize URL: /oauth/authorize?client_id=...&scope=...') }}
+                {{ __('The default scope is empty. Add a scope to the authorization URL: /oauth/authorize?client_id=...&scope=...') }}
             </flux:text>
         </flux:card>
     </div>
@@ -331,9 +331,9 @@ defer resp.Body.Close()</code></pre>
                     <flux:icon.shield-exclamation class="size-5 text-amber-600 dark:text-amber-400" />
                 </div>
                 <div class="min-w-0 flex-1">
-                    <flux:heading size="sm">{{ __('Kontrol Status Client') }}</flux:heading>
+                    <flux:heading size="sm">{{ __('Client status controls') }}</flux:heading>
                     <flux:text class="mt-1 text-sm">
-                        {{ __('Revoke menghentikan penerbitan token baru. Token aktif tetap valid hingga expired. Re-enable untuk mengaktifkan kembali tanpa membuat client baru.') }}
+                        {{ __('Revoking a client stops new token issuance. Active tokens remain valid until they expire. Re-enable it to reactivate it without creating a new client.') }}
                     </flux:text>
                 </div>
             </div>
@@ -355,14 +355,14 @@ defer resp.Body.Close()</code></pre>
                     <flux:icon.key class="size-5 text-indigo-600 dark:text-indigo-400" />
                 </div>
                 <div class="min-w-0 flex-1">
-                    <flux:heading size="sm">{{ __('Kelola Client Secret') }}</flux:heading>
+                    <flux:heading size="sm">{{ __('Manage client secret') }}</flux:heading>
                     <flux:text class="mt-1 text-sm">
-                        {{ __('Rotasi menghasilkan secret 40 karakter baru. Secret lama langsung tidak valid. Butuh konfirmasi password.') }}
+                        {{ __('Rotation generates a new 40-character secret. The old secret becomes invalid immediately. Password confirmation is required.') }}
                     </flux:text>
                 </div>
             </div>
             <div class="mt-4 border-t border-zinc-200 pt-4 dark:border-zinc-700">
-                <flux:text variant="subtle" class="text-xs">{{ __('Secret hanya tampil sekali di notifikasi atas setelah rotasi. Simpan di .env segera. Reveal (ikon mata) di tabel atas bisa dipakai berulang tanpa rotasi ulang.') }}</flux:text>
+                <flux:text variant="subtle" class="text-xs">{{ __('The secret is shown once in the notification above after rotation. Save it in .env immediately. Use Reveal (eye icon) in the table above to view it again without rotating.') }}</flux:text>
                 <div class="mt-4 flex justify-end">
                     <flux:button variant="primary" size="sm" icon="arrow-path" wire:click="confirmRotate" data-test="rotate-secret">
                         {{ __('Rotate secret') }}
@@ -375,9 +375,9 @@ defer resp.Body.Close()</code></pre>
     <flux:modal name="rotate-secret-modal" class="max-w-md" wire:model="showRotateModal" @close="closeRotateModal">
         <form wire:submit="rotate" class="space-y-6">
             <div class="space-y-2">
-                <flux:heading size="lg">{{ __('Konfirmasi Password untuk Rotasi Secret') }}</flux:heading>
+                <flux:heading size="lg">{{ __('Confirm password to rotate the secret') }}</flux:heading>
                 <flux:text>
-                    {{ __('Masukkan password Anda untuk mengonfirmasi rotasi. Secret lama akan tidak valid dan secret baru akan ditampilkan sekali.') }}
+                    {{ __('Enter your password to confirm the rotation. The old secret will become invalid, and the new secret will be shown once.') }}
                 </flux:text>
             </div>
 
@@ -388,7 +388,7 @@ defer resp.Body.Close()</code></pre>
             </flux:field>
 
             <div class="flex justify-end gap-3">
-                <flux:button variant="ghost" wire:click="closeRotateModal" type="button">{{ __('Batal') }}</flux:button>
+                <flux:button variant="ghost" wire:click="closeRotateModal" type="button">{{ __('Cancel') }}</flux:button>
                 <flux:button variant="primary" type="submit" icon="arrow-path">{{ __('Rotate secret') }}</flux:button>
             </div>
         </form>

@@ -148,13 +148,13 @@ new #[Title('Dashboard')] class extends Component {
         {{-- Header --}}
         <div>
             <flux:heading size="xl" level="1">{{ __('Dashboard') }}</flux:heading>
-            <flux:subheading size="lg">{{ __('Ringkasan SSO — status, aktivitas, dan kesehatan sistem') }}</flux:subheading>
+            <flux:subheading size="lg">{{ __('SSO overview — system status, activity, and health') }}</flux:subheading>
         </div>
 
         {{-- Row 1: Health Card --}}
         <flux:card class="mt-6">
             <div class="flex flex-wrap items-center justify-between gap-4">
-                <flux:heading size="sm">{{ __('Kesehatan Sistem') }}</flux:heading>
+                <flux:heading size="sm">{{ __('System health') }}</flux:heading>
                 <div class="flex flex-wrap items-center gap-5 text-sm">
                     <div class="flex items-center gap-2">
                         <span class="text-xs text-zinc-500 dark:text-zinc-400">{{ __('DB') }}</span>
@@ -191,9 +191,9 @@ new #[Title('Dashboard')] class extends Component {
                     <div class="text-xs text-zinc-500 dark:text-zinc-400">{{ __('Users') }}</div>
                     <div class="text-lg font-semibold leading-tight">{{ $this->kpi['totalUsers'] }}</div>
                     <div class="text-[11px] text-zinc-400">
-                        <span class="text-green-600 dark:text-green-400">{{ $this->kpi['activeUsers'] }}</span> {{ __('aktif') }}
+                        <span class="text-green-600 dark:text-green-400">{{ $this->kpi['activeUsers'] }}</span> {{ __('Active') }}
                         @if ($this->kpi['trashUsers'] > 0)
-                            · <span class="text-orange-600 dark:text-orange-400">{{ $this->kpi['trashUsers'] }}</span> {{ __('trash') }}
+                            · <span class="text-orange-600 dark:text-orange-400">{{ $this->kpi['trashUsers'] }}</span> {{ __('Trash') }}
                         @endif
                     </div>
                 </div>
@@ -207,9 +207,9 @@ new #[Title('Dashboard')] class extends Component {
                     <div class="text-xs text-zinc-500 dark:text-zinc-400">{{ __('Clients') }}</div>
                     <div class="text-lg font-semibold leading-tight">{{ $this->kpi['totalClients'] }}</div>
                     <div class="text-[11px] text-zinc-400">
-                        <span class="text-green-600 dark:text-green-400">{{ $this->kpi['activeClients'] }}</span> {{ __('aktif') }}
+                        <span class="text-green-600 dark:text-green-400">{{ $this->kpi['activeClients'] }}</span> {{ __('Active') }}
                         @if ($this->kpi['totalClients'] - $this->kpi['activeClients'] > 0)
-                            · <span class="text-zinc-500">{{ $this->kpi['totalClients'] - $this->kpi['activeClients'] }}</span> {{ __('revoked') }}
+                            · <span class="text-zinc-500">{{ $this->kpi['totalClients'] - $this->kpi['activeClients'] }}</span> {{ __('Revoked') }}
                         @endif
                     </div>
                 </div>
@@ -222,7 +222,7 @@ new #[Title('Dashboard')] class extends Component {
                 <div class="min-w-0">
                     <div class="text-xs text-zinc-500 dark:text-zinc-400">{{ __('Tokens') }}</div>
                     <div class="text-lg font-semibold leading-tight">{{ $this->kpi['activeTokens'] }}</div>
-                    <div class="text-[11px] text-green-600 dark:text-green-400">{{ __('aktif') }}</div>
+                    <div class="text-[11px] text-green-600 dark:text-green-400">{{ __('Active') }}</div>
                 </div>
             </div>
 
@@ -231,9 +231,9 @@ new #[Title('Dashboard')] class extends Component {
                     <flux:icon.clock class="size-5 text-blue-600 dark:text-blue-400" />
                 </div>
                 <div class="min-w-0">
-                    <div class="text-xs text-zinc-500 dark:text-zinc-400">{{ __('Audit Hari Ini') }}</div>
+                    <div class="text-xs text-zinc-500 dark:text-zinc-400">{{ __('Today\'s audit activity') }}</div>
                     <div class="text-lg font-semibold leading-tight">{{ $this->kpi['todayAudits'] }}</div>
-                    <div class="text-[11px] text-zinc-400">{{ __('event') }}</div>
+                    <div class="text-[11px] text-zinc-400">{{ __('Events') }}</div>
                 </div>
             </div>
         </div>
@@ -248,7 +248,7 @@ new #[Title('Dashboard')] class extends Component {
                 @if ($this->kpi['trashUsers'] > 0)
                     <a href="{{ route('admin.users.trash') }}" wire:navigate class="flex items-center gap-2 rounded-lg border border-orange-200 bg-orange-50 px-3 py-2 text-sm transition hover:bg-orange-100 dark:border-orange-800 dark:bg-orange-950 dark:hover:bg-orange-900">
                         <flux:icon.exclamation-triangle class="size-4 text-orange-500" />
-                        <span class="font-medium text-orange-800 dark:text-orange-200">{{ $this->kpi['trashUsers'] }} {{ __('user di trash') }}</span>
+                        <span class="font-medium text-orange-800 dark:text-orange-200">{{ $this->kpi['trashUsers'] }} {{ __('Users in trash') }}</span>
                         <flux:icon.arrow-right class="size-3 text-orange-400" />
                     </a>
                 @endif
@@ -256,7 +256,7 @@ new #[Title('Dashboard')] class extends Component {
                 @if (($this->kpi['totalClients'] - $this->kpi['activeClients']) > 0)
                     <a href="{{ route('admin.clients.index') }}" wire:navigate class="flex items-center gap-2 rounded-lg border border-orange-200 bg-orange-50 px-3 py-2 text-sm transition hover:bg-orange-100 dark:border-orange-800 dark:bg-orange-950 dark:hover:bg-orange-900">
                         <flux:icon.exclamation-triangle class="size-4 text-orange-500" />
-                        <span class="font-medium text-orange-800 dark:text-orange-200">{{ $this->kpi['totalClients'] - $this->kpi['activeClients'] }} {{ __('client revoked') }}</span>
+                        <span class="font-medium text-orange-800 dark:text-orange-200">{{ $this->kpi['totalClients'] - $this->kpi['activeClients'] }} {{ __('Revoked clients') }}</span>
                         <flux:icon.arrow-right class="size-3 text-orange-400" />
                     </a>
                 @endif
@@ -267,7 +267,7 @@ new #[Title('Dashboard')] class extends Component {
         @php $chart = $this->weeklyActivity(); @endphp
         <flux:card class="mt-6">
             <div class="flex items-center justify-between">
-                <flux:heading size="sm">{{ __('Aktivitas Terbaru') }}</flux:heading>
+                <flux:heading size="sm">{{ __('Recent activity') }}</flux:heading>
                 <div class="flex items-center gap-4 text-xs">
                     <div class="flex items-center gap-1.5">
                         <span class="block size-2.5 rounded-full bg-indigo-500"></span>
@@ -363,9 +363,9 @@ new #[Title('Dashboard')] class extends Component {
         <div class="mt-6">
             <flux:card>
                 <div class="flex items-center justify-between">
-                    <flux:heading size="sm">{{ __('Audit Terbaru') }}</flux:heading>
+                    <flux:heading size="sm">{{ __('Recent audits') }}</flux:heading>
                     <flux:button variant="ghost" size="sm" :href="route('admin.audits.index')" wire:navigate icon="arrow-right">
-                        {{ __('Semua Audit') }}
+                        {{ __('All audit logs') }}
                     </flux:button>
                 </div>
                 <div class="mt-4 space-y-0 divide-y divide-zinc-200 dark:divide-zinc-700 rounded-xl border border-zinc-200 dark:border-zinc-700">
@@ -400,7 +400,7 @@ new #[Title('Dashboard')] class extends Component {
                             <div class="shrink-0 text-xs text-zinc-400" title="{{ $audit->created_at }}">{{ $audit->created_at?->format('d M H:i') }}</div>
                         </div>
                     @empty
-                        <div class="p-8 text-center"><flux:text>{{ __('Belum ada audit') }}</flux:text></div>
+                        <div class="p-8 text-center"><flux:text>{{ __('No audit records yet') }}</flux:text></div>
                     @endforelse
                 </div>
             </flux:card>
@@ -408,10 +408,10 @@ new #[Title('Dashboard')] class extends Component {
     @else
         <div class="flex flex-col gap-4">
             <flux:heading size="xl" level="1">{{ __('Dashboard') }}</flux:heading>
-            <flux:subheading>{{ __('Selamat datang — kelola aplikasi yang terhubung ke akun Anda') }}</flux:subheading>
+            <flux:subheading>{{ __('Welcome — manage the applications connected to your account') }}</flux:subheading>
             <div class="mt-2 flex gap-2">
                 <flux:button variant="primary" :href="route('user.authorized-apps')" wire:navigate>{{ __('Authorized apps') }}</flux:button>
-                <flux:button variant="ghost" :href="route('profile.edit')" wire:navigate>{{ __('Pengaturan') }}</flux:button>
+                <flux:button variant="ghost" :href="route('profile.edit')" wire:navigate>{{ __('Settings') }}</flux:button>
             </div>
         </div>
     @endif

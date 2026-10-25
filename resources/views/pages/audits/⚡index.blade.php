@@ -107,7 +107,7 @@ new #[Title('Audit Logs')] class extends Component {
     <div class="flex flex-wrap items-end justify-between gap-4">
         <div>
             <flux:heading size="xl" level="1">{{ __('Audit Logs') }}</flux:heading>
-            <flux:subheading size="lg">{{ __('Jejak aktivitas user & client — tanpa secret') }}</flux:subheading>
+            <flux:subheading size="lg">{{ __('Activity log for users and clients without secrets') }}</flux:subheading>
         </div>
         <div class="flex gap-2">
             <flux:button variant="ghost" :href="route('admin.exports.show', 'audits')" wire:navigate icon="arrow-down-tray">
@@ -123,7 +123,7 @@ new #[Title('Audit Logs')] class extends Component {
             <div class="mt-1 text-2xl font-semibold">{{ $this->stats['total'] }}</div>
         </flux:card>
         <flux:card class="py-4">
-            <flux:text variant="subtle" class="text-xs uppercase tracking-wide">{{ __('Hari ini') }}</flux:text>
+            <flux:text variant="subtle" class="text-xs uppercase tracking-wide">{{ __('Today') }}</flux:text>
             <div class="mt-1 text-2xl font-semibold text-green-600">{{ $this->stats['today'] }}</div>
         </flux:card>
         <flux:card class="py-4">
@@ -158,12 +158,12 @@ new #[Title('Audit Logs')] class extends Component {
                     <flux:select wire:model="typeDraft">
                         <flux:select.option value="all">{{ __('All types') }}</flux:select.option>
                         <flux:select.option value="User">{{ __('User') }}</flux:select.option>
-                        <flux:select.option value="OAuthClient">{{ __('OAuthClient') }}</flux:select.option>
+                        <flux:select.option value="OAuthClient">{{ __('OAuth client') }}</flux:select.option>
                     </flux:select>
                 </flux:field>
             </div>
             <div class="flex gap-2 sm:pb-0.5">
-                <flux:button variant="primary" wire:click="applyFilters" icon="funnel">{{ __('Terapkan') }}</flux:button>
+                <flux:button variant="primary" wire:click="applyFilters" icon="funnel">{{ __('Apply') }}</flux:button>
                 <flux:button variant="ghost" wire:click="resetFilters" icon="x-mark">{{ __('Reset') }}</flux:button>
             </div>
         </div>
@@ -172,7 +172,7 @@ new #[Title('Audit Logs')] class extends Component {
     <div class="mt-6 overflow-hidden rounded-xl border border-zinc-200 dark:border-zinc-700">
         <flux:table>
             <flux:table.columns>
-                <flux:table.column class="w-[160px] first:!ps-4">{{ __('Waktu') }}</flux:table.column>
+                <flux:table.column class="w-[160px] first:!ps-4">{{ __('Time') }}</flux:table.column>
                 <flux:table.column class="w-[110px]">{{ __('Event') }}</flux:table.column>
                 <flux:table.column class="w-[160px]">{{ __('Auditable') }}</flux:table.column>
                 <flux:table.column class="w-[160px]">{{ __('Actor') }}</flux:table.column>
@@ -207,7 +207,7 @@ new #[Title('Audit Logs')] class extends Component {
                     </flux:table.row>
                 @empty
                     <flux:table.row>
-                        <flux:table.cell colspan="6"><div class="py-10 text-center"><flux:heading>{{ __('Belum ada audit') }}</flux:heading><flux:text class="mt-1">{{ __('Aktivitas akan muncul di sini.') }}</flux:text></div></flux:table.cell>
+                        <flux:table.cell colspan="6"><div class="py-10 text-center"><flux:heading>{{ __('No audit records yet') }}</flux:heading><flux:text class="mt-1">{{ __('Activity will appear here.') }}</flux:text></div></flux:table.cell>
                     </flux:table.row>
                 @endforelse
             </flux:table.rows>

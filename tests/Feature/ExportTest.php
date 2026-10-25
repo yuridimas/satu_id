@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Livewire;
+use PhpOffice\PhpSpreadsheet\IOFactory;
 
 test('superuser can export users xlsx and see progress and history', function () {
     Storage::fake('exports');
@@ -13,7 +14,7 @@ test('superuser can export users xlsx and see progress and history', function ()
     User::factory()->count(3)->create(['role' => 'user']);
 
     Livewire::actingAs($superuser)->test('pages::exports.show', ['type' => 'users'])
-        ->assertSee('Akan mengekspor')
+        ->assertSee('Exporting')
         ->call('startExport')
         ->assertHasNoErrors();
 
@@ -106,4 +107,29 @@ test('failed export generation marks history failed and logs a structured error'
             && ($context['user_id'] ?? null) === $superuser->id
             && isset($context['exception'], $context['trace'])
     );
+});
+
+test('queued exports use the selected locale and restore the worker locale', function () {
+    Storage::fake('exports');
+
+    $superuser = User::factory()->create(['role' => 'superuser']);
+    User::factory()->create(['role' => 'user']);
+    $history = ExportHistory::create([
+        'type' => 'users',
+        'file' => 'localized-users.xlsx',
+        'row_count' => 1,
+        'progress' => 0,
+        'status' => 'queued',
+        'user_id' => $superuser->id,
+    ]);
+
+    app()->setLocale('en');
+
+    (new GenerateExportJob($history->id, 'users', [], locale: 'id'))->handle();
+
+    $spreadsheet = IOFactory::load(Storage::disk('exports')->path($history->file));
+    $headings = $spreadsheet->getActiveSheet()->rangeToArray('A1:E1')[0];
+
+    expect($headings)->toBe(['ID', 'Nama', 'Surel', 'Status', 'Dibuat'])
+        ->and(app()->getLocale())->toBe('en');
 });

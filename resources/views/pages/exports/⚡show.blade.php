@@ -57,7 +57,7 @@ new #[Title('Export')] class extends Component {
         }
 
         if ($this->count === 0) {
-            Flux::toast(text: __('Tidak ada data untuk diekspor.'), variant: 'danger');
+            Flux::toast(text: __('No data available to export.'), variant: 'danger');
 
             return;
         }
@@ -73,9 +73,9 @@ new #[Title('Export')] class extends Component {
             'user_id' => auth()->id(),
         ]);
 
-        GenerateExportJob::dispatch($history->id, $this->type, []);
+        GenerateExportJob::dispatch($history->id, $this->type, [], app()->getLocale());
 
-        Flux::toast(text: __('Export diproses — cek progress di bawah.'), variant: 'success');
+        Flux::toast(text: __('Export is processing — check the progress below.'), variant: 'success');
     }
 
     public string $password = '';
@@ -91,38 +91,38 @@ new #[Title('Export')] class extends Component {
     <div class="flex flex-wrap items-end justify-between gap-4">
         <div>
             <flux:heading size="xl" level="1">{{ __('Export :type', ['type' => Str::headline($type)]) }}</flux:heading>
-            <flux:subheading size="lg">{{ __('Unduh rekap XLSX — hanya format XLSX') }}</flux:subheading>
+            <flux:subheading size="lg">{{ __('Download the XLSX report — XLSX format only.') }}</flux:subheading>
         </div>
         <flux:button variant="ghost" :href="route('admin.' . $type . '.index')" wire:navigate icon="arrow-left">
-            {{ __('Kembali') }}
+            {{ __('Back') }}
         </flux:button>
     </div>
 
     <flux:card class="mt-6">
-        <flux:heading size="sm">{{ __('Apa yang akan diekspor') }}</flux:heading>
+        <flux:heading size="sm">{{ __('What will be exported') }}</flux:heading>
         <flux:text class="mt-1 text-sm">
             @if ($type === 'users')
-                {{ __('Akan mengekspor :count Users ke XLSX. Kolom: ID, Nama, Email, Status, Dibuat.', ['count' => $this->count]) }}
+                {{ __('Exporting :count users to XLSX. Columns: ID, Name, Email, Status, Created at.', ['count' => $this->count]) }}
             @elseif ($type === 'clients')
-                {{ __('Akan mengekspor :count OAuth Clients ke XLSX. Kolom: ID, Nama, Grant, Redirect, Confidential, Status, Dibuat.', ['count' => $this->count]) }}
+                {{ __('Exporting :count OAuth clients to XLSX. Columns: ID, Name, Grant, Redirect URIs, Confidential, Status, Created at.', ['count' => $this->count]) }}
             @else
-                {{ __('Akan mengekspor :count Audit Logs ke XLSX. Kolom: Waktu, Event, Auditable, Actor, IP, Tags.', ['count' => $this->count]) }}
+                {{ __('Exporting :count audit logs to XLSX. Columns: Time, Event, Auditable, Actor, IP, Tags.', ['count' => $this->count]) }}
             @endif
         </flux:text>
         <div class="mt-4 flex flex-wrap items-center gap-3">
             @if ($type === 'audits')
                 <flux:field class="max-w-xs">
-                    <flux:label>{{ __('Password (konfirmasi untuk audit)') }}</flux:label>
+                    <flux:label>{{ __('Password (confirmation required for audit export)') }}</flux:label>
                     <flux:input wire:model="password" type="password" required autocomplete="current-password" viewable placeholder="••••••••" />
                     <flux:error name="password" />
                 </flux:field>
             @endif
             <flux:button variant="primary" icon="arrow-down-tray" wire:click="startExport" :disabled="$this->count === 0" data-test="start-export">
-                {{ __('Mulai Export') }}
+                {{ __('Start export') }}
             </flux:button>
         </div>
         @if ($this->count === 0)
-            <flux:text variant="subtle" class="mt-2 text-xs">{{ __('Tidak ada data untuk diekspor.') }}</flux:text>
+            <flux:text variant="subtle" class="mt-2 text-xs">{{ __('No data available to export.') }}</flux:text>
         @endif
     </flux:card>
 
@@ -134,9 +134,9 @@ new #[Title('Export')] class extends Component {
                 <div class="flex-1">
                     <flux:heading size="sm">
                         @if ($latest->status === 'queued')
-                            {{ __('Menunggu antrian…') }}
+                            {{ __('Waiting in queue…') }}
                         @else
-                            {{ __('Memproses :count baris…', ['count' => $latest->row_count]) }} ({{ $latest->progress }}%)
+                            {{ __('Processing :count rows…', ['count' => $latest->row_count]) }} ({{ $latest->progress }}%)
                         @endif
                     </flux:heading>
                     <flux:progress :value="$latest->progress" max="100" class="mt-2" />
@@ -151,13 +151,13 @@ new #[Title('Export')] class extends Component {
             <flux:icon.information-circle class="size-5 text-indigo-600 dark:text-indigo-400 shrink-0 mt-0.5" />
             <div class="space-y-1">
                 <div class="flex items-center gap-2">
-                    <h4 class="text-sm font-semibold text-zinc-900 dark:text-white">{{ __('Info penyimpanan') }}</h4>
+                    <h4 class="text-sm font-semibold text-zinc-900 dark:text-white">{{ __('Storage information') }}</h4>
                     <span class="rounded bg-indigo-50 px-1.5 py-0.5 text-[10px] font-semibold text-indigo-700 dark:bg-indigo-950/60 dark:text-indigo-300">
-                        {{ __('RETENTION 7 HARI') }}
+                        {{ __('7-DAY RETENTION') }}
                     </span>
                 </div>
                 <p class="text-xs leading-relaxed text-zinc-600 dark:text-zinc-400">
-                    {{ __('Semua riwayat export akan otomatis terhapus 7 hari ke depan. File di storage/S3 ikut terhapus agar tidak membengkak. Link download tanpa batas waktu selama riwayat masih ada.') }}
+                    {{ __('All export history is deleted automatically after 7 days. Files in storage/S3 are also removed to prevent storage growth. Download links remain active while the export history exists.') }}
                 </p>
             </div>
         </div>
@@ -165,17 +165,17 @@ new #[Title('Export')] class extends Component {
 
     <flux:card class="mt-6">
         <div class="flex items-center justify-between">
-            <flux:heading size="sm">{{ __('Riwayat Export :type', ['type' => Str::headline($type)]) }}</flux:heading>
-            <flux:text variant="subtle" class="text-xs">{{ __('Hanya untuk tipe ini') }}</flux:text>
+            <flux:heading size="sm">{{ __(':type export history', ['type' => Str::headline($type)]) }}</flux:heading>
+            <flux:text variant="subtle" class="text-xs">{{ __('This type only') }}</flux:text>
         </div>
         <div class="mt-4 overflow-hidden rounded-xl border border-zinc-200 dark:border-zinc-700">
             <flux:table>
                 <flux:table.columns>
-                    <flux:table.column class="w-[160px] first:!ps-4">{{ __('Waktu') }}</flux:table.column>
+                    <flux:table.column class="w-[160px] first:!ps-4">{{ __('Time') }}</flux:table.column>
                     <flux:table.column>{{ __('File') }}</flux:table.column>
-                    <flux:table.column class="w-[80px]">{{ __('Baris') }}</flux:table.column>
+                    <flux:table.column class="w-[80px]">{{ __('Rows') }}</flux:table.column>
                     <flux:table.column class="w-[120px]">{{ __('Status') }}</flux:table.column>
-                    <flux:table.column class="w-[140px] last:!pe-4 text-right">{{ __('Aksi') }}</flux:table.column>
+                    <flux:table.column class="w-[140px] last:!pe-4 text-right">{{ __('Actions') }}</flux:table.column>
                 </flux:table.columns>
                 <flux:table.rows>
                     @forelse ($this->histories as $h)
@@ -202,15 +202,15 @@ new #[Title('Export')] class extends Component {
                                         {{ __('Download') }}
                                     </flux:button>
                                 @elseif ($h->status === 'failed')
-                                    <flux:badge color="rose" size="sm">{{ __('Gagal') }}</flux:badge>
+                                    <flux:badge color="rose" size="sm">{{ __('Failed') }}</flux:badge>
                                 @else
-                                    <flux:text variant="subtle" class="text-xs">{{ __('Menunggu…') }}</flux:text>
+                                    <flux:text variant="subtle" class="text-xs">{{ __('Waiting…') }}</flux:text>
                                 @endif
                             </flux:table.cell>
                         </flux:table.row>
                     @empty
                         <flux:table.row>
-                            <flux:table.cell colspan="5"><div class="py-10 text-center"><flux:heading>{{ __('Belum ada riwayat') }}</flux:heading><flux:text class="mt-1">{{ __('Klik Mulai Export di atas.') }}</flux:text></div></flux:table.cell>
+                            <flux:table.cell colspan="5"><div class="py-10 text-center"><flux:heading>{{ __('No history yet') }}</flux:heading><flux:text class="mt-1">{{ __('Click Start export above.') }}</flux:text></div></flux:table.cell>
                         </flux:table.row>
                     @endforelse
                 </flux:table.rows>

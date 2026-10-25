@@ -212,7 +212,7 @@ new #[Title('OAuth2 Clients')] class extends Component {
                 </flux:field>
             </div>
             <div class="flex gap-2 sm:pb-0.5">
-                <flux:button variant="primary" wire:click="applyFilters" icon="funnel">{{ __('Terapkan') }}</flux:button>
+                <flux:button variant="primary" wire:click="applyFilters" icon="funnel">{{ __('Apply') }}</flux:button>
                 <flux:button variant="ghost" wire:click="resetFilters" icon="x-mark">{{ __('Reset') }}</flux:button>
             </div>
         </div>

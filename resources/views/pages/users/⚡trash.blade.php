@@ -99,7 +99,7 @@ new #[Title('Trashed users')] class extends Component {
             <flux:subheading size="lg">{{ __('Restore a soft deleted user account') }}</flux:subheading>
         </div>
         <flux:button variant="ghost" :href="route('admin.users.index')" wire:navigate icon="arrow-left">
-            {{ __('Kembali') }}
+            {{ __('Back') }}
         </flux:button>
     </div>
 
@@ -119,7 +119,7 @@ new #[Title('Trashed users')] class extends Component {
                 <flux:input type="search" wire:model="searchDraft" :placeholder="__('Search name or email…')" icon="magnifying-glass" />
             </flux:field>
             <div class="flex gap-2 sm:pb-0.5">
-                <flux:button variant="primary" wire:click="applyFilters" icon="funnel">{{ __('Terapkan') }}</flux:button>
+                <flux:button variant="primary" wire:click="applyFilters" icon="funnel">{{ __('Apply') }}</flux:button>
                 <flux:button variant="ghost" wire:click="resetFilters" icon="x-mark">{{ __('Reset') }}</flux:button>
             </div>
         </div>
