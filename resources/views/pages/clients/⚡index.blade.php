@@ -268,6 +268,7 @@ new #[Title('OAuth2 Clients')] class extends Component {
                                     tooltip="{{ __('View') }}"
                                     variant="ghost"
                                     size="sm"
+                                    class="text-slate-600 hover:text-slate-700 hover:bg-slate-100 dark:text-slate-400 dark:hover:text-slate-300 dark:hover:bg-slate-800"
                                 />
                                 <flux:button
                                     :href="route('admin.clients.edit', $client)"
@@ -276,6 +277,7 @@ new #[Title('OAuth2 Clients')] class extends Component {
                                     tooltip="{{ __('Edit') }}"
                                     variant="ghost"
                                     size="sm"
+                                    class="text-blue-600 hover:text-blue-700 hover:bg-blue-50 dark:text-blue-400 dark:hover:text-blue-300 dark:hover:bg-blue-950/50"
                                 />
                                 <flux:button
                                     wire:click="toggle('{{ $client->id }}')"
@@ -283,6 +285,7 @@ new #[Title('OAuth2 Clients')] class extends Component {
                                     :tooltip="$client->isActive() ? __('Revoke') : __('Re-enable')"
                                     variant="ghost"
                                     size="sm"
+                                    :class="$client->isActive() ? 'text-amber-600 hover:text-amber-700 hover:bg-amber-50 dark:text-amber-400 dark:hover:text-amber-300 dark:hover:bg-amber-950/50' : 'text-emerald-600 hover:text-emerald-700 hover:bg-emerald-50 dark:text-emerald-400 dark:hover:text-emerald-300 dark:hover:bg-emerald-950/50'"
                                 />
                                 <flux:button
                                     wire:click="confirmDelete('{{ $client->id }}')"
@@ -291,7 +294,7 @@ new #[Title('OAuth2 Clients')] class extends Component {
                                     tooltip="{{ __('Delete') }}"
                                     variant="ghost"
                                     size="sm"
-                                    class="text-red-500 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-950/50"
+                                    class="text-red-600 hover:text-red-700 hover:bg-red-50 dark:text-red-400 dark:hover:text-red-300 dark:hover:bg-red-950/50"
                                 />
                             </div>
                         </flux:table.cell>
