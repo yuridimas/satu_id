@@ -65,8 +65,8 @@ new #[Title('Create user')] class extends Component {
             <flux:subheading size="lg">{{ __('Create a new regular user account') }}</flux:subheading>
         </div>
 
-        <flux:button variant="ghost" :href="route('admin.users.index')" wire:navigate>
-            {{ __('Back to users') }}
+        <flux:button variant="ghost" :href="route('admin.users.index')" wire:navigate icon="arrow-left">
+            {{ __('Kembali') }}
         </flux:button>
     </div>
 

@@ -72,8 +72,8 @@ new #[Title('Edit user')] class extends Component {
             <flux:subheading size="lg">{{ $name }}</flux:subheading>
         </div>
 
-        <flux:button variant="ghost" :href="route('admin.users.index')" wire:navigate>
-            {{ __('Back to users') }}
+        <flux:button variant="ghost" :href="route('admin.users.index')" wire:navigate icon="arrow-left">
+            {{ __('Kembali') }}
         </flux:button>
     </div>
 

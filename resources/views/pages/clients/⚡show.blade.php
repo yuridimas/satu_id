@@ -144,8 +144,8 @@ new #[Title('OAuth2 client details')] class extends Component {
             <flux:button variant="outline" :href="route('admin.clients.edit', $this->client)" wire:navigate>
                 {{ __('Edit') }}
             </flux:button>
-            <flux:button variant="ghost" :href="route('admin.clients.index')" wire:navigate>
-                {{ __('Back to clients') }}
+            <flux:button variant="ghost" :href="route('admin.clients.index')" wire:navigate icon="arrow-left">
+                {{ __('Kembali') }}
             </flux:button>
         </div>
     </div>

@@ -99,7 +99,7 @@ new #[Title('Trashed users')] class extends Component {
             <flux:subheading size="lg">{{ __('Restore a soft deleted user account') }}</flux:subheading>
         </div>
         <flux:button variant="ghost" :href="route('admin.users.index')" wire:navigate icon="arrow-left">
-            {{ __('Back to users') }}
+            {{ __('Kembali') }}
         </flux:button>
     </div>
 

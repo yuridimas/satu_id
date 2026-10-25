@@ -63,8 +63,8 @@ new #[Title('Edit OAuth2 client')] class extends Component {
             <flux:subheading size="lg">{{ $name }}</flux:subheading>
         </div>
 
-        <flux:button variant="ghost" :href="route('admin.clients.index')" wire:navigate>
-            {{ __('Back to clients') }}
+        <flux:button variant="ghost" :href="route('admin.clients.index')" wire:navigate icon="arrow-left">
+            {{ __('Kembali') }}
         </flux:button>
     </div>
 
